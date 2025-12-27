@@ -14,7 +14,7 @@ urlpatterns = [
 
     #Product URLs
     path('products/',ProductViews.ProductListView.as_view()),
-    path('product/<int:pk>',ProductViews.ProductDetailsView.as_view()),
+    path('products/<int:pk>/',ProductViews.ProductDetailsView.as_view()),
 
     #Cart URLs
     path('cart/',CartViews.CartView.as_view()),

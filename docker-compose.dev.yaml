@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # db:
+  #   image: postgres:14
+  #   env_file:
+  #     - .env.db
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend-drf
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend-drf/.env
+    # depends_on:
+    #   - db
+    volumes:
+      - ./backend-drf:/app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
