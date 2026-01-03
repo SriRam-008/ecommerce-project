@@ -187,7 +187,7 @@ SPECTACULAR_SETTINGS = {
 CORS_ALLOWED_ORIGINS = ['http://localhost:5173','http://172.235.17.169:5173','http://djangoclickmart.duckdns.org','https://djangoclickmart.duckdns.org','http://www.djangoclickmart.duckdns.org','https://www.djangoclickmart.duckdns.org']
 
 
-CORS_ALLOWED_ORIGINS = [
+CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "https://djangoclickmart.duckdns.org",
     "https://www.djangoclickmart.duckdns.org",
