@@ -37,7 +37,7 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - ./backend-drf/static:/static
       - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - frontend
       - backend
