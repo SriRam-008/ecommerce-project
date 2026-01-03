@@ -13,7 +13,7 @@ services:
     depends_on:
       - db
     volumes:
-       - ./backend-drf/staticfiles:/app/staticfiles  
+      - ./backend-drf/staticfiles:/app/staticfiles  
       - ./backend-drf/media:/app/media
     command: >
       sh -c "python manage.py collectstatic --noinput &&
