@@ -16,6 +16,7 @@ class PlaceOrderView(APIView):
 
     def post(self,request):
         cart = CartModel.objects.get(user=request.user)
+        shipping_address = request.data.get('shippingAddress')
         #check cart is not empty
         if not cart or cart.items.count() == 0:
             return Response({'error':'Cart is empty'},status=status.HTTP_400_BAD_REQUEST)
@@ -25,8 +26,26 @@ class PlaceOrderView(APIView):
             user=request.user,
             sub_total=cart.subtotal,
             tax_amount=cart.tax_amount,
-            grand_total = cart.grand_total
+            grand_total = cart.grand_total,
+            address = shipping_address.get('address'),
+            phone = shipping_address.get('phone'),
+            city = shipping_address.get('city'),
+            state = shipping_address.get('state'),
+            zip_code = shipping_address.get('zipCode'),
+
         )
+
+        #Loop through the cart item
+        for item in cart.items.all():
+            product = item.product
+
+            #check quantity
+            if product.stock < item.quantity:
+                return Response({'details':f'Only {product.stock} is left for {product.name}'},status=status.HTTP_400_BAD_REQUEST)
+
+            #Decrease product quantity
+            product.stock  -= item.quantity
+            product.save()
 
         #create order items ,in this each cart_item become order_item
         for item in cart.items.all():
