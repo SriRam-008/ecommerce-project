@@ -37,7 +37,7 @@ const Hero = () => {
             <img
               src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600"
               alt="Tech Products"
-              className="img-fluid rounded-3 shadow-lg"
+              className="img-fluid rounded-3 shadow-lg mt-3 mt-lg-0"
               style={{ maxHeight: "400px", objectFit: "cover" }}
             />
           </div>
@@ -48,3 +48,4 @@ const Hero = () => {
 };
 
 export default Hero;
+

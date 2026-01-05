@@ -141,7 +141,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      <div className="py-5 vh-100">
+      <div className="py-5 min-vh-100">
         <div className="container">
           <nav aria-label="breadcrumb" className="mb-4">
             <ol className="breadcrumb">
