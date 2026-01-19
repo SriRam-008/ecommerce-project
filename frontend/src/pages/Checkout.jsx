@@ -25,6 +25,19 @@ const Checkout = () => {
   const { auth } = useAuth();
   const accessToken = auth?.accessToken;
 
+  const isValidEmail = (email) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isValidPhone = (phone) =>
+    /^[6-9]\d{9}$/.test(phone);
+
+  const isAlphaOnly = (value) =>
+    /^[a-zA-Z\s]+$/.test(value);
+
+  const isValidZip = (zip) =>
+    /^\d{5,6}$/.test(zip);
+
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -58,19 +71,48 @@ const Checkout = () => {
   }
 
   const validateShippingForm = () => {
-    const newErrors = {};
+  const newErrors = {};
 
-    if (!shippingAddress.phone.trim()) newErrors.phone = "Phone is required";
-    if (!shippingAddress.address.trim())
-      newErrors.address = "Address is required";
-    if (!shippingAddress.city.trim()) newErrors.city = "City is required";
-    if (!shippingAddress.state.trim()) newErrors.state = "State is required";
-    if (!shippingAddress.zipCode.trim())
-      newErrors.zipCode = "ZIP code is required";
+  if (!profile?.email) {
+    newErrors.email = "Email is required";
+  } else if (!isValidEmail(profile.email)) {
+    newErrors.email = "Invalid email format";
+  }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  if (!shippingAddress.phone.trim()) {
+    newErrors.phone = "Phone number is required";
+  } else if (!isValidPhone(shippingAddress.phone)) {
+    newErrors.phone = "Enter a valid 10-digit phone number";
+  }
+
+  if (!shippingAddress.address.trim()) {
+    newErrors.address = "Address is required";
+  } else if (shippingAddress.address.length < 10) {
+    newErrors.address = "Address must be at least 10 characters";
+  }
+
+  if (!shippingAddress.city.trim()) {
+    newErrors.city = "City is required";
+  } else if (!isAlphaOnly(shippingAddress.city)) {
+    newErrors.city = "City must contain only letters";
+  }
+
+  if (!shippingAddress.state.trim()) {
+    newErrors.state = "State is required";
+  } else if (!isAlphaOnly(shippingAddress.state)) {
+    newErrors.state = "State must contain only letters";
+  }
+
+  if (!shippingAddress.zipCode.trim()) {
+    newErrors.zipCode = "ZIP code is required";
+  } else if (!isValidZip(shippingAddress.zipCode)) {
+    newErrors.zipCode = "Enter a valid ZIP code";
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
   };
+
 
   const handleShippingSubmit = (e) => {
     e.preventDefault();
